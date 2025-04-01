@@ -1,10 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const router = useRouter();
 
   const handleLogin = async () => {
     try {
@@ -19,9 +21,10 @@ export default function LoginPage() {
       );
 
       const data = await res.json();
-      if (res.ok && data.access_token) {
-        localStorage.setItem("access_token", data.access_token);
+      if (res.ok && data.accessToken) {
+        localStorage.setItem("access_token", data.accessToken);
         alert("로그인 성공!");
+        router.push("/dashboard"); // 원하는 페이지로 리디렉션
       } else {
         alert("로그인 실패");
         console.error(data);
