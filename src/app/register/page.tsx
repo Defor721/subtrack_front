@@ -12,47 +12,34 @@ export default function RegisterPage() {
         "https://subtrackapi-production.up.railway.app/users",
         {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
           body: JSON.stringify({ email, password }),
         }
       );
 
       const data = await res.json();
-      if (res.ok) {
-        alert("회원가입 성공! 이제 로그인하세요.");
-      } else {
-        alert("회원가입 실패");
-        console.error(data);
-      }
+      console.log("✅ Registered user:", data);
     } catch (err) {
-      console.error(err);
-      alert("에러 발생");
+      console.error("❌ Register failed:", err);
     }
   };
 
   return (
-    <main className="flex flex-col items-center justify-center min-h-screen p-8">
-      <h1 className="text-2xl font-bold mb-4">회원가입</h1>
+    <div>
       <input
-        type="email"
-        placeholder="이메일"
-        className="border p-2 mb-2 w-64"
+        placeholder="email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
       <input
-        type="password"
-        placeholder="비밀번호"
-        className="border p-2 mb-4 w-64"
+        placeholder="password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-      <button
-        onClick={handleRegister}
-        className="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700"
-      >
-        회원가입
-      </button>
-    </main>
+      <button onClick={handleRegister}>회원가입</button>
+    </div>
   );
 }
