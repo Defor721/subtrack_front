@@ -6,7 +6,10 @@ export default function TestPaymentPage() {
       "https://subtrackapi-production.up.railway.app/payments/create-checkout-session",
       {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
         credentials: "include",
         body: JSON.stringify({
           planId: "prod_S34hd9AsEidedO", // 👈 Stripe 대시보드에서 실제 planId 넣어줘야 해
