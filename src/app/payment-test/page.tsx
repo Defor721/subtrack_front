@@ -12,7 +12,7 @@ export default function TestPaymentPage() {
         },
         credentials: "include",
         body: JSON.stringify({
-          planId: "prod_S34hd9AsEidedO", // 👈 Stripe 대시보드에서 실제 planId 넣어줘야 해
+          planId: "price_1R8yXtD7Xp2h61bC5ehGWfxd", // 👈 Stripe 대시보드에서 실제 planId 넣어줘야 해
         }),
       }
     );
