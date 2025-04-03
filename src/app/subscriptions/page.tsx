@@ -1,16 +1,17 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
-type Plan = {
+type Subscription = {
   id: string;
-  name: string;
-  price: number;
-  description: string;
+  plan: {
+    id: string;
+    name: string;
+    price: number;
+    description: string;
+  };
 };
-
 export default function MySubscriptionPage() {
-  const [subscription, setSubscription] = useState<Plan | null>(null);
+  const [subscription, setSubscription] = useState<Subscription | null>(null);
   const [loading, setLoading] = useState(false);
 
   const fetchSubscription = async () => {
@@ -24,7 +25,7 @@ export default function MySubscriptionPage() {
     );
     if (res.ok) {
       const data = await res.json();
-      setSubscription(data.plan);
+      setSubscription(data);
     } else {
       setSubscription(null);
     }
@@ -64,9 +65,9 @@ export default function MySubscriptionPage() {
 
       {subscription ? (
         <div className="border rounded p-6 w-full max-w-md">
-          <h2 className="text-xl font-semibold">{subscription.name}</h2>
-          <p className="text-gray-600">{subscription.description}</p>
-          <p className="font-bold mt-2">${subscription.price}</p>
+          <h2 className="text-xl font-semibold">{subscription.plan.name}</h2>
+          <p className="text-gray-600">{subscription.plan.description}</p>
+          <p className="font-bold mt-2">${subscription.plan.price}</p>
 
           <button
             onClick={handleCancel}
