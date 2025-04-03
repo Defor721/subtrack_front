@@ -2,6 +2,13 @@
 
 import { useEffect, useState } from "react";
 
+type Plan = {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+};
+
 export default function PlansPage() {
   const [plans, setPlans] = useState([]);
   const [selected, setSelected] = useState<string | null>(null);
@@ -46,7 +53,7 @@ export default function PlansPage() {
       <h1 className="text-2xl font-bold mb-4">요금제 선택</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {plans.map((plan: any) => (
+        {plans.map((plan: Plan) => (
           <div
             key={plan.id}
             onClick={() => setSelected(plan.id)}
