@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+
 type Subscription = {
   id: string;
   plan: {
@@ -10,6 +11,7 @@ type Subscription = {
     description: string;
   };
 };
+
 export default function MySubscriptionPage() {
   const [subscription, setSubscription] = useState<Subscription | null>(null);
   const [loading, setLoading] = useState(false);
@@ -23,9 +25,10 @@ export default function MySubscriptionPage() {
         },
       }
     );
+
     if (res.ok) {
       const data = await res.json();
-      setSubscription(data);
+      setSubscription(data); // ✅ 전체 subscription 저장
     } else {
       setSubscription(null);
     }
@@ -63,7 +66,7 @@ export default function MySubscriptionPage() {
     <main className="flex flex-col items-center justify-center min-h-screen p-6 text-center">
       <h1 className="text-2xl font-bold mb-4">내 구독 정보</h1>
 
-      {subscription ? (
+      {subscription?.plan ? (
         <div className="border rounded p-6 w-full max-w-md">
           <h2 className="text-xl font-semibold">{subscription.plan.name}</h2>
           <p className="text-gray-600">{subscription.plan.description}</p>
