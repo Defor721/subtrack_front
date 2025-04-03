@@ -28,6 +28,7 @@ export default function MySubscriptionPage() {
 
     if (res.ok) {
       const data = await res.json();
+      console.log(data);
       setSubscription(data); // ✅ 전체 subscription 저장
     } else {
       setSubscription(null);
