@@ -1,10 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function RegisterPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const router = useRouter();
 
   const handleRegister = async () => {
     try {
@@ -21,6 +23,7 @@ export default function RegisterPage() {
       const data = await res.json();
       if (res.ok) {
         alert("회원가입 성공! 이제 로그인하세요.");
+        router.push("/login");
       } else {
         alert("회원가입 실패");
         console.error(data);

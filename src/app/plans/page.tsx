@@ -58,7 +58,7 @@ export default function PlansPage() {
             key={plan.id}
             onClick={() => setSelected(plan.id)}
             className={`border rounded p-4 cursor-pointer ${
-              selected === plan.id ? "border-blue-500" : ""
+              selected === plan.id ? "border-blue-500 border-4" : ""
             }`}
           >
             <h2 className="text-xl font-semibold mb-2">{plan.name}</h2>
