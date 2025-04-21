@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import LoadingScreen from "../components/LoadingScreen";
 
 type Plan = {
   id: string;
@@ -21,6 +20,7 @@ export default function DashboardPage() {
   const router = useRouter();
   const [subscription, setSubscription] = useState<Subscription | null>(null);
   const [loading, setLoading] = useState(true);
+  const [cancelling, setCancelling] = useState(false);
 
   useEffect(() => {
     const fetchSubscription = async () => {
@@ -51,6 +51,44 @@ export default function DashboardPage() {
     fetchSubscription();
   }, []);
 
+  const handleCancel = async () => {
+    if (!confirm("정말로 구독을 취소하시겠습니까?")) return;
+
+    try {
+      setCancelling(true);
+      const res = await fetch(
+        "https://subtrackapi-production.up.railway.app/subscriptions",
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          },
+        }
+      );
+
+      if (res.ok) {
+        alert("구독이 성공적으로 취소되었습니다.");
+        setSubscription(null); // 구독 상태 초기화
+      } else {
+        const data = await res.json();
+        alert(`구독 취소 실패: ${data.message || "에러"}`);
+      }
+    } catch (err) {
+      console.error(err);
+      alert("에러 발생");
+    } finally {
+      setCancelling(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <main className="flex items-center justify-center min-h-screen">
+        <p>로딩 중...</p>
+      </main>
+    );
+  }
+
   return (
     <main className="flex flex-col items-center justify-center min-h-screen p-8">
       <h1 className="text-3xl font-bold mb-6">🎉 대시보드</h1>
@@ -69,12 +107,22 @@ export default function DashboardPage() {
               {new Date(subscription.createdAt).toLocaleDateString()}
             </p>
           </div>
-          <button
-            onClick={() => router.push("/plans")}
-            className="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700"
-          >
-            다른 요금제 보기
-          </button>
+
+          <div className="flex flex-col space-y-2 mt-4">
+            <button
+              onClick={handleCancel}
+              disabled={cancelling}
+              className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 disabled:opacity-50"
+            >
+              {cancelling ? "취소 중..." : "구독 취소하기"}
+            </button>
+            <button
+              onClick={() => router.push("/plans")}
+              className="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700"
+            >
+              다른 요금제 보기
+            </button>
+          </div>
         </div>
       ) : (
         <div className="text-center space-y-4">
