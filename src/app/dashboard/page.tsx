@@ -95,7 +95,7 @@ export default function DashboardPage() {
         transition={{ duration: 0.6 }}
         className="w-full max-w-2xl p-8 bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl shadow-xl"
       >
-        <h1 className="text-3xl font-bold mb-8 text-center">🎉 대시보드</h1>
+        <h1 className="text-3xl font-bold mb-8 text-center">대시보드</h1>
 
         {subscription ? (
           <div className="space-y-6 text-center">
@@ -118,13 +118,13 @@ export default function DashboardPage() {
               <button
                 onClick={handleCancel}
                 disabled={cancelling}
-                className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-6 rounded-lg transition disabled:opacity-50"
+                className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-6 rounded-lg transition disabled:opacity-50 hover:cursor-pointer"
               >
                 {cancelling ? "구독 취소 중..." : "구독 취소하기"}
               </button>
               <button
                 onClick={() => router.push("/plans")}
-                className="bg-gray-800 hover:bg-gray-900 text-white font-semibold py-2 px-6 rounded-lg transition"
+                className="bg-gray-800 hover:bg-gray-900 text-white font-semibold py-2 px-6 rounded-lg transition hover:cursor-pointer"
               >
                 다른 요금제 보기
               </button>
