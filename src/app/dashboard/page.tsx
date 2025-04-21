@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
+import LoadingScreen from "../components/LoadingScreen";
 
 type Plan = {
   id: string;
@@ -19,7 +21,7 @@ type Subscription = {
 export default function DashboardPage() {
   const router = useRouter();
   const [subscription, setSubscription] = useState<Subscription | null>(null);
-
+  const [loading, setLoading] = useState(true);
   const [cancelling, setCancelling] = useState(false);
 
   useEffect(() => {
@@ -43,6 +45,8 @@ export default function DashboardPage() {
       } catch (err) {
         console.error(err);
         setSubscription(null);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -79,58 +83,67 @@ export default function DashboardPage() {
     }
   };
 
+  if (loading) {
+    return <LoadingScreen />;
+  }
+
   return (
-    <main className="max-w-3xl mx-auto py-12 px-6 min-h-screen flex flex-col items-center">
-      <h1 className="text-4xl font-bold mb-8 text-center">대시보드</h1>
+    <main className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white px-4">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="w-full max-w-2xl p-8 bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl shadow-xl"
+      >
+        <h1 className="text-3xl font-bold mb-8 text-center">🎉 대시보드</h1>
 
-      {subscription ? (
-        <div className="w-full space-y-6">
-          <div className="bg-white shadow-md rounded-lg p-6 text-center">
-            <h2 className="text-2xl font-semibold mb-2">
-              {subscription.plan.name}
-            </h2>
-            <p className="text-gray-600 mb-4">
-              {subscription.plan.description}
-            </p>
-            <p className="text-3xl font-bold text-green-600 mb-4">
-              ${subscription.plan.price}
-              <span className="text-sm text-gray-500"> /월</span>
-            </p>
-            <p className="text-sm text-gray-400">
-              구독 시작일:{" "}
-              {new Date(subscription.createdAt).toLocaleDateString()}
-            </p>
+        {subscription ? (
+          <div className="space-y-6 text-center">
+            <div className="space-y-2">
+              <h2 className="text-2xl font-semibold">
+                {subscription.plan.name}
+              </h2>
+              <p className="text-gray-300">{subscription.plan.description}</p>
+              <p className="text-3xl font-bold text-green-400">
+                ${subscription.plan.price}
+                <span className="text-sm text-gray-400"> / 월</span>
+              </p>
+              <p className="text-sm text-gray-500">
+                구독 시작일:{" "}
+                {new Date(subscription.createdAt).toLocaleDateString()}
+              </p>
+            </div>
+
+            <div className="flex flex-col md:flex-row items-center justify-center gap-4 mt-6">
+              <button
+                onClick={handleCancel}
+                disabled={cancelling}
+                className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-6 rounded-lg transition disabled:opacity-50"
+              >
+                {cancelling ? "구독 취소 중..." : "구독 취소하기"}
+              </button>
+              <button
+                onClick={() => router.push("/plans")}
+                className="bg-gray-800 hover:bg-gray-900 text-white font-semibold py-2 px-6 rounded-lg transition"
+              >
+                다른 요금제 보기
+              </button>
+            </div>
           </div>
-
-          <div className="flex flex-col md:flex-row items-center justify-center gap-4 mt-6">
-            <button
-              onClick={handleCancel}
-              disabled={cancelling}
-              className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-6 rounded transition disabled:opacity-50"
-            >
-              {cancelling ? "구독 취소 중..." : "구독 취소하기"}
-            </button>
+        ) : (
+          <div className="text-center space-y-6">
+            <p className="text-xl text-gray-300">
+              현재 구독 중인 요금제가 없습니다.
+            </p>
             <button
               onClick={() => router.push("/plans")}
-              className="bg-gray-800 hover:bg-gray-900 text-white font-semibold py-2 px-6 rounded transition"
+              className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg transition"
             >
-              요금제 변경하기
+              요금제 선택하러 가기
             </button>
           </div>
-        </div>
-      ) : (
-        <div className="text-center space-y-6">
-          <p className="text-xl text-gray-600">
-            현재 구독 중인 요금제가 없습니다.
-          </p>
-          <button
-            onClick={() => router.push("/plans")}
-            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded transition"
-          >
-            요금제 선택하러 가기
-          </button>
-        </div>
-      )}
+        )}
+      </motion.div>
     </main>
   );
 }
