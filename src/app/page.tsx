@@ -21,8 +21,7 @@ export default function Home() {
         transition={{ delay: 0.2, duration: 0.6 }}
         className="mb-10 text-lg text-gray-400 text-center max-w-md"
       >
-        구독을 스마트하게 추적하고 관리하세요. <br />
-        Subtrack으로 당신의 지출을 통제하세요.
+        당신의 구독 정보를 스마트하게 추적하고 관리하세요.
       </motion.p>
 
       <motion.div
