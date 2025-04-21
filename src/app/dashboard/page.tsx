@@ -19,7 +19,7 @@ type Subscription = {
 export default function DashboardPage() {
   const router = useRouter();
   const [subscription, setSubscription] = useState<Subscription | null>(null);
-  const [loading, setLoading] = useState(true);
+
   const [cancelling, setCancelling] = useState(false);
 
   useEffect(() => {
@@ -43,8 +43,6 @@ export default function DashboardPage() {
       } catch (err) {
         console.error(err);
         setSubscription(null);
-      } finally {
-        setLoading(false);
       }
     };
 
