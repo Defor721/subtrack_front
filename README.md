@@ -1,36 +1,40 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+📘 SubTrack - SaaS 구독 관리 플랫폼
 
-## Getting Started
+📌 프로젝트 소개
+SubTrack은 다양한 구독형 SaaS 서비스를 하나의 대시보드에서 통합 관리할 수 있는 구독 관리 플랫폼입니다. Stripe 결제를 기반으로 사용자는 요금제를 선택하고 구독 상태를 확인할 수 있으며, 관리자는 요금제를 생성/수정/삭제할 수 있습니다.
 
-First, run the development server:
+💡 주요 기능
+사용자 기능
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+구독 요금제 목록 확인
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Stripe를 통한 요금제 결제
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+현재 내 구독 상태 확인
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+구독 취소 기능
 
-## Learn More
+관리자 기능
 
-To learn more about Next.js, take a look at the following resources:
+요금제 생성, 수정, 삭제
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+관리자 전용 요금제 관리 페이지 접근
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Stripe 연동
 
-## Deploy on Vercel
+결제 완료 시 Webhook을 통해 구독 정보 자동 저장
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+🛠 기술 스택
+Frontend: Next.js 13 (App Router), TailwindCSS
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Backend: NestJS
+
+ORM: Prisma
+
+Database: MongoDB Atlas
+
+Authentication: JWT (NestJS), OAuth (NextAuth - GitHub)
+
+Payment: Stripe
+
+Deployment: Railway (Backend), Vercel (Frontend)
