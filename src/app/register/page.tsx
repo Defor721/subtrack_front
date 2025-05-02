@@ -93,7 +93,7 @@ export default function RegisterPage() {
             <button
               type="button"
               onClick={() => setShowPassword((prev) => !prev)}
-              className="absolute right-3 top-3 text-sm text-blue-300 hover:text-blue-400"
+              className="absolute right-3 top-3 text-sm text-blue-300 hover:text-blue-400 hover:cursor-pointer"
             >
               {showPassword ? "숨기기" : "보이기"}
             </button>
