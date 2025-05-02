@@ -93,7 +93,7 @@ export default function RegisterPage() {
             <button
               type="button"
               onClick={() => setShowPassword((prev) => !prev)}
-              className="absolute right-3 top-3.5 text-blue-300 hover:text-blue-400"
+              className="absolute right-3 top-3.5 text-blue-300 hover:text-blue-400 hover:cursor-pointer"
             >
               {showPassword ? (
                 <FiEyeOff className="w-5 h-5" />
