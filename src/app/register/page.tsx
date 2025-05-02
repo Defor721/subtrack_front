@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { FiMail, FiLock } from "react-icons/fi"; // Feather Icons
+import { FiMail, FiLock, FiEye, FiEyeOff } from "react-icons/fi"; // Feather Icons
 
 export default function RegisterPage() {
   const [email, setEmail] = useState("");
@@ -93,9 +93,13 @@ export default function RegisterPage() {
             <button
               type="button"
               onClick={() => setShowPassword((prev) => !prev)}
-              className="absolute right-3 top-3 text-sm text-blue-300 hover:text-blue-400 hover:cursor-pointer"
+              className="absolute right-3 top-3.5 text-blue-300 hover:text-blue-400"
             >
-              {showPassword ? "숨기기" : "보이기"}
+              {showPassword ? (
+                <FiEyeOff className="w-5 h-5" />
+              ) : (
+                <FiEye className="w-5 h-5" />
+              )}
             </button>
           </div>
 
