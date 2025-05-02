@@ -1,80 +1,35 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
 
-type Plan = {
-  id: string;
-  name: string;
-  description: string;
-  price: number;
-};
-
-export default function PlansPage() {
-  const [plans, setPlans] = useState([]);
-  const [selected, setSelected] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
+export default function SuccessPage() {
+  const router = useRouter();
 
   useEffect(() => {
-    fetch("https://subtrackapi-production.up.railway.app/plans")
-      .then((res) => res.json())
-      .then(setPlans)
-      .catch(console.error);
-  }, []);
+    const timeout = setTimeout(() => {
+      router.push("/dashboard");
+    }, 4000);
 
-  const handleCheckout = async () => {
-    if (!selected) return;
-    setLoading(true);
-
-    const res = await fetch(
-      "https://subtrackapi-production.up.railway.app/payments/create-checkout-session",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-        },
-        body: JSON.stringify({ planId: selected }),
-      }
-    );
-
-    const data = await res.json();
-    if (res.ok && data.url) {
-      window.location.href = data.url;
-    } else {
-      alert("결제 페이지로 이동 실패");
-      console.error(data);
-    }
-
-    setLoading(false);
-  };
+    return () => clearTimeout(timeout);
+  }, [router]);
 
   return (
-    <main className="p-8">
-      <h1 className="text-2xl font-bold mb-4">요금제 선택</h1>
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {plans.map((plan: Plan) => (
-          <div
-            key={plan.id}
-            onClick={() => setSelected(plan.id)}
-            className={`border rounded p-4 cursor-pointer ${
-              selected === plan.id ? "border-blue-500" : ""
-            }`}
-          >
-            <h2 className="text-xl font-semibold mb-2">{plan.name}</h2>
-            <p className="mb-2 text-sm text-gray-600">{plan.description}</p>
-            <p className="text-lg font-bold">${plan.price}</p>
-          </div>
-        ))}
-      </div>
-
-      <button
-        onClick={handleCheckout}
-        disabled={!selected || loading}
-        className="mt-6 bg-blue-600 text-white px-6 py-2 rounded disabled:opacity-50"
+    <main className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white px-4">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="w-full max-w-md p-8 bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl shadow-xl text-center"
       >
-        {loading ? "결제 준비 중..." : "Stripe 결제"}
-      </button>
+        <h1 className="text-3xl font-bold mb-4">✅ 결제 성공</h1>
+        <p className="text-gray-300">
+          구독이 정상적으로 완료되었습니다.
+          <br />
+          잠시 후 대시보드로 이동합니다...
+        </p>
+      </motion.div>
     </main>
   );
 }
